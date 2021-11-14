@@ -13,12 +13,19 @@
     <div id="getPrivate" class="card beige navy-font sub-content button" hidden>
         <p>Get Private Key!</p>
     </div>
+    <div id="feedMsg" class="beige-font" style="text-align: center; font-weight: bold; margin-top: 25px;" hidden>
+        <p>A new pair of keys are generated.</p>
+    </div>
 </div>
 
 <script>
     $("#newKey").on('click', () => {
+        $("#feedMsg").removeAttr("hidden");
         $("#getPublic").removeAttr("hidden");
-        $("#getPrivate").removeAttr("hidden");        
+        $("#getPrivate").removeAttr("hidden");  
+        setTimeout(() => {
+            $("#feedMsg").attr("hidden", "1");
+        }, 3000);      
     })
 </script>
 
