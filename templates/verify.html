@@ -4,7 +4,28 @@
 
 <div>
     <h2>Verify File</h2>
-
+    <div class="navy-font">
+    <form action="" method="post" enctype="multipart/form-data">
+        <div id="file-section" class="sub-content card beige file-section" style="margin: inherit auto">
+            <label for="input-file">Choose File</label><br>
+            <input type="file" name="input-file" id="input-file">
+        </div>
+        <div id="key-section" class="sub-content card beige file-section">
+            <label for="input-key">Choose Public Key</label><br>
+            <input type="file" name="input-key" id="input-key">
+        </div>
+        <button id="real-submit" type="submit" hidden>Sign!</button>
+        <div id="submit-button" class="beige sub-content button card">
+            <p>Sign File!</p>
+        </div>
+    </form>
+    </div>
 </div>
+
+<script>
+    $("#submit-button").on('click', () => {
+        $("#real-submit").click();
+    })
+</script>
 
 {% endblock %}
