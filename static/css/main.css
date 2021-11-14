@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap');
+
+* {
+    box-sizing: border-box;
+ }
+
+body {
+    font-family: 'Quicksand', sans-serif;
+    margin: 0;
+    padding: 0;    
+}
+
+h1 {
+    font-size: 65px;
+}
+
+nav li {
+    display: inline;
+    list-style-type: none;
+    margin-right: 20px;
+}
+
+li a {
+    text-decoration: none;
+    color: #F7F6F2;
+}
+
+main {
+    margin: 150px auto;
+    width: fit-content;
+}
+
+
+/* COLOR PALLETE */
+.navy {
+    background-color: #4B6587;
+}
+
+.grey {
+    background-color: #C8C6C6;
+}
+
+.white {
+    background-color: #F7F6F2;
+}
+
+.beige {
+    background-color: #F0E5CF;
+}
+
+.white-font {
+    color: #F7F6F2;
+}
+
+.beige-font {
+    color: #F0E5CF;
+}
+
+.navy-font {
+    color: #4B6587;
+}
+
+.grey-font {
+    color: #C8C6C6;
+}
+
+.card {
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+.grid-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.grid-item {
+    margin: 15px;
+    width: 29%;
+    text-align: center;
+}
+
+.button {
+    padding: 0px 20px;
+    margin: auto;
+    border-radius: 20px;
+}
+
+.button:hover {
+    filter: brightness(92%);
+    font-weight: bold;
+    cursor: pointer;
+}
