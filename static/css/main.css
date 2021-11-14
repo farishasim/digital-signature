@@ -90,3 +90,24 @@ h1 {
     font-weight: bold;
     cursor: pointer;
 }
+
+#sub {
+    width: 95%;
+    margin: 40px auto;
+    padding: 40px;
+    border-radius: 20px;
+}
+
+#sub h2 {
+    margin: 0px;
+}
+
+#sub .sub-content {
+    margin-top: 25px;
+}
+
+.sub-content.button {
+    width: 30%;
+    text-align: center;
+    padding: 1px 20px;
+}
