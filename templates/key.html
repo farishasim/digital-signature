@@ -4,9 +4,22 @@
 
 <div>
     <h2>Generate Key</h2>
-    <div class="card beige navy-font sub-content button">
+    <div id="newKey" class="card beige navy-font sub-content button">
         <p>Get New Key!</p>
     </div>
+    <div id="getPublic" class="card beige navy-font sub-content button" hidden>
+        <p>Get Public Key!</p>
+    </div>
+    <div id="getPrivate" class="card beige navy-font sub-content button" hidden>
+        <p>Get Private Key!</p>
+    </div>
 </div>
+
+<script>
+    $("#newKey").on('click', () => {
+        $("#getPublic").removeAttr("hidden");
+        $("#getPrivate").removeAttr("hidden");        
+    })
+</script>
 
 {% endblock %}
