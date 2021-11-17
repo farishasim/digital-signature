@@ -7,15 +7,17 @@
     <div id="newKey" class="card beige navy-font sub-content button">
         <p>Get New Key!</p>
     </div>
-    <div id="getPublic" class="card beige navy-font sub-content button" hidden>
+    {% if encrypt %}
+    <div id="getPublic" class="card beige navy-font sub-content button" onclick="location.href='/download/{{filename}}'" hidden>
         <p>Get Public Key!</p>
     </div>
-    <div id="getPrivate" class="card beige navy-font sub-content button" hidden>
+    <div id="getPrivate" class="card beige navy-font sub-content button" onclick="location.href='/genkeypri'" hidden>
         <p>Get Private Key!</p>
     </div>
     <div id="feedMsg" class="beige-font" style="text-align: center; font-weight: bold; margin-top: 25px;" hidden>
         <p>A new pair of keys are generated.</p>
     </div>
+    {% endif %}
 </div>
 
 <script>
