@@ -5,6 +5,15 @@
 <div>
     <h2>Verify File</h2>
     <div class="navy-font">
+    {% if verify %}
+    <div id="result-section" class="sub-content card beige file-section" style="margin: inherit auto">
+        <p>Dokumen ini terverifikasi!</p>
+    </div>
+    {% elif not_verify %}
+    <div id="result-section" class="sub-content card beige file-section" style="margin: inherit auto">
+        <p>Dokumen ini tidak terverifikasi!</p>
+    </div>
+    {% else %}
     <form action="" method="post" enctype="multipart/form-data">
         <div id="file-section" class="sub-content card beige file-section" style="margin: inherit auto">
             <label for="input-file">Choose File</label><br>
@@ -19,6 +28,7 @@
             <p>Verify File!</p>
         </div>
     </form>
+    {% endif %}
     </div>
 </div>
 

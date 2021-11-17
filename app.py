@@ -1,5 +1,6 @@
 from flask import *
 from backend import backend
+from werkzeug.utils import secure_filename
 import os
 
 app = Flask(__name__)
@@ -17,9 +18,43 @@ def generateKey():
 def signFile():
     return render_template("sign.html")
 
+@app.route('/sign', methods=["POST"])
+def sign_file_process():
+    if request.method == 'POST':
+        path = os.path.join(current_app.root_path + "/" + app.config["UPLOAD_FOLDER"])
+        key = request.form.get("key")
+        f = request.files['input-file']
+        filename = secure_filename(f.filename)
+        f.save(os.path.join(app.config["UPLOAD_FOLDER"] ,filename))
+        f = open(os.path.join(app.config["UPLOAD_FOLDER"] ,filename), "ab")
+        #plain = f.read()
+        #cipher = rc4.encrypt(plain, key)
+        #open("dump/output", "wb").write(cipher)
+        f.write(bytes("\nHai", encoding='utf8'))
+        f.close()
+        return send_file(os.path.join(app.config["UPLOAD_FOLDER"] ,filename), as_attachment=True)
+    return 
+
 @app.route("/verify")
 def verifyFile():
     return render_template("verify.html")
+
+@app.route('/verify', methods=["POST"])
+def verify_file_process():
+    if request.method == 'POST':
+        path = os.path.join(current_app.root_path + "/" + app.config["UPLOAD_FOLDER"])
+        key = request.form.get("key")
+        f = request.files['input-file']
+        filename = secure_filename(f.filename)
+        f.save(os.path.join(app.config["UPLOAD_FOLDER"] ,filename))
+        f = open(os.path.join(app.config["UPLOAD_FOLDER"] ,filename), "ab")
+        #plain = f.read()
+        #cipher = rc4.encrypt(plain, key)
+        #open("dump/output", "wb").write(cipher)
+        f.write(bytes("\nHai", encoding='utf8'))
+        f.close()
+        return render_template("verify.html", not_verify=True)
+    return 
 
 @app.route('/download/public')
 def download_public():
