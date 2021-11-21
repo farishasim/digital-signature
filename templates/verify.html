@@ -8,6 +8,8 @@
     {% if verify %}
     <div id="result-section" class="sub-content card beige file-section" style="margin: inherit auto">
         <p>Dokumen ini terverifikasi!</p>
+        <p>Sign: </p>
+        <p>{{sign}}</p>
     </div>
     {% elif not_verify %}
     <div id="result-section" class="sub-content card beige file-section" style="margin: inherit auto">
