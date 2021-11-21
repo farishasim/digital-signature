@@ -1,5 +1,6 @@
 from flask import *
 from backend import backend
+from backend import elgamal
 from werkzeug.utils import secure_filename
 import os
 
@@ -12,6 +13,7 @@ def index():
 
 @app.route("/genkey")
 def generateKey():
+    elgamal.key_generator()
     return render_template("key.html")
 
 @app.route("/sign")
