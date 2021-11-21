@@ -3,6 +3,8 @@ from math import log2, ceil
 from flask import *
 from backend import math_tools, prime, sha256
 
+app.config["UPLOAD_FOLDER"]='dump'
+
 def key_generator():
     prim = prime.Prime()    
     p = prim.generate_prime()
@@ -12,18 +14,18 @@ def key_generator():
 
 #    path = os.path.join(current_app.root_path + "/" + app.config["UPLOAD_FOLDER"])
     
-    f = open("public.pub", 'w')
+    f = open("dump/public.pub", 'w')
     f.write('y=' + str(y) + '\n' + 'g=' + str(g) + '\n' + 'p=' + str(p))
     f.close()
     
-    f = open("private.pri", 'w')
+    f = open("dump/private.pri", 'w')
     f.write('x=' + str(x) + '\n' + 'p=' + str(p))
     f.close()
 
 
 def encrypt_elgamal(plaintext):
     key_generator()
-    f = open('public.pub', 'r')
+    f = open('dump/public.pub', 'r')
     text = f.read()
     keys = text.split('\n')
     y = int(keys[0][2:])
@@ -49,7 +51,7 @@ def encrypt_elgamal(plaintext):
     return cipher
 
 def decrypt_elgamal(ciphertext):
-    f = open('private.pri', 'r')
+    f = open('dump/private.pri', 'r')
     text = f.read()
     keys = text.split('\n')
     x = int(keys[0][2:])
