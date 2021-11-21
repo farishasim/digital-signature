@@ -16,22 +16,14 @@ def get_private_key_file(filename):
     #close file
     text_file.close()
 
-def find_signature(infile):
+def find_signature(filename):
     hasil = ""
-    pattern = re.compile(b"[<ds>]")
-    pattern2 = re.compile(b"[<\ds>]")
-    copy = False
-    for line in infile:
-        if line.strip() == bool(pattern.search(line)):
-            copy = True
-            continue
-        elif line.strip() == bool(pattern2.search(line)):
-            copy = False
-            continue
-        elif copy:
-            hasil.append(line)
-    return hasil
-    # if(len(hasil) > 0):
-    #     return hasil
-    # else:
-    #     return -1
+    with open(filename, 'rb') as f:
+        s = str(f.read()[-30:])
+        start = s.find("<ds>") + len("<ds>")
+        end = s.find("</ds>")
+        hasil = s[start:end]
+    if(len(hasil) > 0):
+        return hasil
+    else:
+        return -1

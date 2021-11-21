@@ -53,9 +53,7 @@ def verify_file_process():
         #plain = f.read()
         #cipher = rc4.encrypt(plain, key)
         #open("dump/output", "wb").write(cipher)
-        f = open(os.path.join(app.config["UPLOAD_FOLDER"] ,filename), "ab")
         hasil = backend.find_signature(os.path.join(app.config["UPLOAD_FOLDER"] ,filename))
-        f.close()
         if (hasil == -1):
             return render_template("verify.html", not_verify=True)
         else:
