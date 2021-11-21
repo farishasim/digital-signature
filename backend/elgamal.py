@@ -1,9 +1,7 @@
 import time, random, os
 from math import log2, ceil
 from flask import *
-import math_tools
-import prime
-import sha256
+from backend import math_tools, prime, sha256
 
 def key_generator():
     prim = prime.Prime()    

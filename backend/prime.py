@@ -1,5 +1,5 @@
 from math import sqrt, floor
-from math_tools import mod_power
+from backend import math_tools
 import random
 
 
@@ -23,5 +23,5 @@ class Prime:
         return primes[100:]
 
     def generate_prime(self):
-        z = mod_power(2, random.randint(200, 121021), len(self.primes))
+        z = math_tools.mod_power(2, random.randint(200, 121021), len(self.primes))
         return self.primes[z]
