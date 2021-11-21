@@ -3,8 +3,6 @@ from math import log2, ceil
 from flask import *
 from backend import math_tools, prime, sha256
 
-app.config["UPLOAD_FOLDER"]='dump'
-
 def key_generator():
     prim = prime.Prime()    
     p = prim.generate_prime()
