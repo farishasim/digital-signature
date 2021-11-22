@@ -1,4 +1,4 @@
-from backend import math_tools
+import math_tools
 
 kTable = [
     0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
@@ -31,10 +31,10 @@ def sha_256(message):
     padded_length = message.bit_length()
      
     # Prosesi
-    chunks = math_tools.split_bit(message, 512)
+    chunks = math_tools.split_bit(message, 512)[0]
     for chunk in chunks:
         words = [0 for _ in range(64)]
-        chunk_word = math_tools.split_bit(chunk, 32)
+        chunk_word = math_tools.split_bit(chunk, 32)[0]
         for i in range(16):
             words[i] = chunk_word[i]
             

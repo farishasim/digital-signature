@@ -1,10 +1,7 @@
+
 # Menghitung nilai dari x^m mod n dengan kompleksitas O(log m)
 def mod_power(x, m, n):
-    if m == 0: return 1
-    elif m == 1: return (x % n)
-    else:
-        y = mod_power(x, m >> 1, n)
-        return((y * y * mod_power(x, m%2, n)) % n)
+    return pow(x, m, n)
 
 # Asumsi x = 1 (mod n). Gunakan extended euclid untuk dapatkan a, b sehingga 
 # ax + bn = 1
@@ -29,22 +26,30 @@ def fpb(a, b):
     
 def split_bit(n, length):
     chunks = []
+    pad = 0
     if n.bit_length() % length != 0:
-        n <<= (length - (n.bit_length() % length))
+        pad = (length - (n.bit_length() % length))
+        n <<= pad
     
     num_chunk = n.bit_length() // length
     for i in range(num_chunk):
         mask = (1 << length) - 1
-        chunks.append((n & (mask << ((num_chunk - i - 1) * length))) >> ((num_chunk - i - 1) * length))
-    return chunks
+        if(i == num_chunk - 1): 
+            chunks.append(((n & (mask << ((num_chunk - i - 1) * length))) >> ((num_chunk - i - 1) * length) >> pad))
+        else:    
+            chunks.append((n & (mask << ((num_chunk - i - 1) * length))) >> ((num_chunk - i - 1) * length))
+    return(chunks, pad)
 
 def split_bit_pref(n, length):
     chunks = []
     num_chunk = n.bit_length() // length
-    if n.bit_length() % length != 0:
+    pad = 0
+     
+    if (n.bit_length() % length) != 0:
+        pad = (length - (n.bit_length() % length))
         num_chunk += 1
     
     for i in range(num_chunk):
         mask = (1 << length) - 1
         chunks.append((n & (mask << ((num_chunk - i - 1) * length))) >> ((num_chunk - i - 1) * length))
-    return chunks 
+    return(chunks, pad) 
