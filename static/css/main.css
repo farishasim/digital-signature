@@ -119,3 +119,8 @@ h1 {
     width: 50%;
     margin: auto;
 }
+
+#result-section {
+    word-wrap: break-word;
+    width: 50%;
+}
