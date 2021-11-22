@@ -1,22 +1,6 @@
-from backend import sha256
+from backend import sha256, elgamal
 import sys
 import re
-
-def get_public_key_file(filename):
-    #open text file
-    text_file = open(filename, "w")
-    #write public key
-    text_file.write('Hello World!')
-    #close file
-    text_file.close()
-
-def get_private_key_file(filename):
-    #open text file
-    text_file = open(filename, "w")
-    #write private key
-    text_file.write('Hello World!')
-    #close file
-    text_file.close()
 
 def get_hash_file(filename):
     with open(filename, 'rb') as f:
@@ -48,6 +32,6 @@ def find_signature(filename):
 def find_content(filename):
     hasil = ""
     with open(filename, 'rb') as f:
-        s = str(f.read())
+        s = "".join([chr(b) for b in f.read()])
         hasil = re.sub('<ds>.*?</ds>', '', s)
     return hasil

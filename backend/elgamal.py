@@ -13,18 +13,17 @@ def key_generator():
 
 #    path = os.path.join(current_app.root_path + "/" + app.config["UPLOAD_FOLDER"])
     
-    f = open("public.pub", 'w')
+    f = open("dump/public.pub", 'w')
     f.write('y=' + str(y) + '\n' + 'g=' + str(g) + '\n' + 'p=' + str(p))
     f.close()
     
-    f = open("private.pri", 'w')
+    f = open("dump/private.pri", 'w')
     f.write('x=' + str(x) + '\n' + 'p=' + str(p))
     f.close()
 
 
-def encrypt_elgamal(plaintext):
-    key_generator()
-    f = open('public.pub', 'r')
+def encrypt_elgamal(plaintext, kunci_publik):
+    f = open(kunci_publik, 'r')
     text = f.read()
     keys = text.split('\n')
     y = int(keys[0][2:])
@@ -47,8 +46,8 @@ def encrypt_elgamal(plaintext):
         cipher += b
     return cipher
 
-def decrypt_elgamal(ciphertext):
-    f = open('private.pri', 'r')
+def decrypt_elgamal(ciphertext, kunci_private):
+    f = open(kunci_private, 'r')
     text = f.read()
     keys = text.split('\n')
     x = int(keys[0][2:])

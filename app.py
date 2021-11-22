@@ -1,6 +1,5 @@
 from flask import *
-from backend import backend, sha256
-from backend import elgamal
+from backend import backend, elgamal, sha256
 from werkzeug.utils import secure_filename
 import os
 
@@ -24,17 +23,16 @@ def signFile():
 def sign_file_process():
     if request.method == 'POST':
         path = os.path.join(current_app.root_path + "/" + app.config["UPLOAD_FOLDER"])
-        key = request.form.get("key")
+        key = request.files['input-key']
         f = request.files['input-file']
         filename = secure_filename(f.filename)
         f.save(os.path.join(app.config["UPLOAD_FOLDER"] ,filename))
+        k_filename = secure_filename(key.filename)
+        key.save(os.path.join(app.config["UPLOAD_FOLDER"] ,k_filename))
         ds2 = backend.get_hash_file(os.path.join(app.config["UPLOAD_FOLDER"] ,filename))
         print("hasil 1 (encrypt)= ",ds2)
-        ds = elgamal.encrypt_elgamal(ds2)
+        ds = elgamal.encrypt_elgamal(ds2, os.path.join(app.config["UPLOAD_FOLDER"] ,k_filename))
         f = open(os.path.join(app.config["UPLOAD_FOLDER"] ,filename), "ab")
-        #plain = f.read()
-        #cipher = rc4.encrypt(plain, key)
-        #open("dump/output", "wb").write(cipher)
         f.write(bytes(f'<ds>{ds}</ds>', encoding='utf8'))
         f.close()
         return send_file(os.path.join(app.config["UPLOAD_FOLDER"] ,filename), as_attachment=True)
@@ -48,21 +46,20 @@ def verifyFile():
 def verify_file_process():
     if request.method == 'POST':
         path = os.path.join(current_app.root_path + "/" + app.config["UPLOAD_FOLDER"])
-        key = request.form.get("key")
         f = request.files['input-file']
+        key = request.files['input-key']
         filename = secure_filename(f.filename)
+        k_filename = secure_filename(key.filename)
         f.save(os.path.join(app.config["UPLOAD_FOLDER"] ,filename))
-        #plain = f.read()
-        #cipher = rc4.encrypt(plain, key)
-        #open("dump/output", "wb").write(cipher)
-        content = bytes(backend.find_content(os.path.join(app.config["UPLOAD_FOLDER"] ,filename))[2:-1],"utf-8")
-        fbin = open("dump/content.bin", "wb")
+        key.save(os.path.join(app.config["UPLOAD_FOLDER"] ,k_filename))
+        content = bytes(backend.find_content(os.path.join(app.config["UPLOAD_FOLDER"] ,filename)),"utf-8")
+        fbin = open("dump/content.txt", "wb+")
         fbin.write(content)
         fbin.close()
         #print("Content:",content)
-        hasil1 = backend.get_hash_file("dump/content.bin")
+        hasil1 = backend.get_hash_file("dump/content.txt")
         hasil2_temp = int(backend.find_signature(os.path.join(app.config["UPLOAD_FOLDER"] ,filename)))
-        hasil2 = elgamal.decrypt_elgamal(hasil2_temp)
+        hasil2 = elgamal.decrypt_elgamal(hasil2_temp, os.path.join(app.config["UPLOAD_FOLDER"] , k_filename))
         print("hasil 1", hasil1)
         print("hasil 2", hasil2)
         if (hasil2 == -1):
@@ -84,15 +81,7 @@ def download_public():
 def download_private():
     #Program untuk generate key di sini
     path = os.path.join(current_app.root_path + "/" + app.config["UPLOAD_FOLDER"])
-    #backend.get_private_key_file(os.path.join(path,"private.pri"))
-    #ext = filename.rsplit('.', 1)[1].lower()
     return send_file(os.path.join(path,"private.pri"), as_attachment=True)
-    """
-    if(ext in ALLOWED_EXTENSIONS_CITRA):
-        return send_file(os.path.join(path,filename), as_attachment=True, mimetype='image/'+str(ext))
-    elif(ext in ALLOWED_EXTENSIONS_VIDEO):
-        return send_file(os.path.join(path,filename), as_attachment=True, mimetype='video/'+str(ext))
-    """
 
 if __name__ == "__main__":
     app.run(debug=True)

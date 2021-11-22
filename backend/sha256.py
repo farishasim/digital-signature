@@ -35,10 +35,20 @@ def sha_256(message):
     padded_length = message.bit_length()
      
     # Prosesi
+    # chunks = math_tools.split_bit(message, 512)[0]
+    # for chunk in chunks:
+    #     words = [0 for _ in range(64)]
+    #     chunk_word = math_tools.split_bit(chunk, 32)[0]
+    #     for i in range(16):
+    #         words[i] = chunk_word[i]
     chunks = math_tools.split_bit(message, 512)[0]
+    #print(chunks)
     for chunk in chunks:
         words = [0 for _ in range(64)]
+
+        chunk <<= 512 - chunk.bit_length()
         chunk_word = math_tools.split_bit(chunk, 32)[0]
+
         for i in range(16):
             words[i] = chunk_word[i]
             
