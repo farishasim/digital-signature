@@ -1,5 +1,3 @@
-import re
-
 def find_signature(filename):
     hasil = ""
     with open(filename, 'rb') as f:

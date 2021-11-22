@@ -1,5 +1,5 @@
 from flask import *
-from backend import backend
+from backend import backend, sha256
 from backend import elgamal
 from werkzeug.utils import secure_filename
 import os
@@ -28,11 +28,13 @@ def sign_file_process():
         f = request.files['input-file']
         filename = secure_filename(f.filename)
         f.save(os.path.join(app.config["UPLOAD_FOLDER"] ,filename))
+        ds2 = backend.get_hash_file(os.path.join(app.config["UPLOAD_FOLDER"] ,filename))
+        print("hasil 1 (encrypt)= ",ds2)
+        ds = elgamal.encrypt_elgamal(ds2)
         f = open(os.path.join(app.config["UPLOAD_FOLDER"] ,filename), "ab")
         #plain = f.read()
         #cipher = rc4.encrypt(plain, key)
         #open("dump/output", "wb").write(cipher)
-        ds = "halo"
         f.write(bytes(f'<ds>{ds}</ds>', encoding='utf8'))
         f.close()
         return send_file(os.path.join(app.config["UPLOAD_FOLDER"] ,filename), as_attachment=True)
@@ -53,12 +55,23 @@ def verify_file_process():
         #plain = f.read()
         #cipher = rc4.encrypt(plain, key)
         #open("dump/output", "wb").write(cipher)
-        hasil = backend.find_signature(os.path.join(app.config["UPLOAD_FOLDER"] ,filename))
-        if (hasil == -1):
-            return render_template("verify.html", not_verify=True)
+        content = bytes(backend.find_content(os.path.join(app.config["UPLOAD_FOLDER"] ,filename))[2:-1],"utf-8")
+        fbin = open("dump/content.bin", "wb")
+        fbin.write(content)
+        fbin.close()
+        #print("Content:",content)
+        hasil1 = backend.get_hash_file("dump/content.bin")
+        hasil2_temp = int(backend.find_signature(os.path.join(app.config["UPLOAD_FOLDER"] ,filename)))
+        hasil2 = elgamal.decrypt_elgamal(hasil2_temp)
+        print("hasil 1", hasil1)
+        print("hasil 2", hasil2)
+        if (hasil2 == -1):
+            return render_template("verify.html", kosong=True)
+        elif(hasil1 == hasil2):
+            return render_template("verify.html", verify=True, sign=hasil1)
         else:
-            return render_template("verify.html", verify=True, sign=hasil)
-    return 
+            return render_template("verify.html", not_verify=True)
+    return
 
 @app.route('/download/public')
 def download_public():

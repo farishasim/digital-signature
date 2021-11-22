@@ -15,6 +15,10 @@
     <div id="result-section" class="sub-content card beige file-section" style="margin: inherit auto">
         <p>Dokumen ini tidak terverifikasi!</p>
     </div>
+    {% elif kosong %}
+    <div id="result-section" class="sub-content card beige file-section" style="margin: inherit auto">
+        <p>Dokumen ini tidak memiliki digital signature!</p>
+    </div>
     {% else %}
     <form action="" method="post" enctype="multipart/form-data">
         <div id="file-section" class="sub-content card beige file-section" style="margin: inherit auto">

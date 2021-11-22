@@ -1,7 +1,7 @@
 import time, random, os
 from math import log2, ceil
 from flask import *
-import math_tools, sha256
+from backend import math_tools, sha256
 
 # app.config["UPLOAD_FOLDER"]='dump'
 
@@ -61,6 +61,8 @@ def decrypt_elgamal(ciphertext):
     pl = []
     plains = 0
     for i in range(len(ciphers[0])):
+        print(ciphers[0][i].bit_length())
+        print(len(math_tools.split_bit_pref(ciphers[0][i], block_length)[0]))
         [a, b] = math_tools.split_bit_pref(ciphers[0][i], block_length)[0]
         plain = ((b % p) * math_tools.mod_power(a, p - 1 - x, p)) % p
         if(i == (len(ciphers[0]) - 1)):
