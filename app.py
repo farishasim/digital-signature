@@ -66,7 +66,7 @@ def verify_file_process():
         hasil2 = elgamal.decrypt_elgamal(hasil2_temp, os.path.join(app.config["UPLOAD_FOLDER"] , k_filename))
         print("hasil 1", hasil1)
         print("hasil 2", hasil2)
-        if (hasil2 == -1):
+        if (hasil2_temp == -1):
             return render_template("verify.html", kosong=True)
         elif(hasil1 == hasil2):
             return render_template("verify.html", verify=True, sign=hasil1)

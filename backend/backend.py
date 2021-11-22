@@ -24,7 +24,7 @@ def find_signature(filename):
         start = s.find("<ds>") + len("<ds>")
         end = s.find("</ds>")
         hasil = s[start:end]
-    if(len(hasil) > 0):
+    if(end != -1):
         return hasil
     else:
         return -1
@@ -35,3 +35,7 @@ def find_content(filename):
         s = "".join([chr(b) for b in f.read()])
         hasil = re.sub('<ds>.*?</ds>', '', s)
     return hasil
+
+if __name__ == "__main__":
+    a = find_signature("C:\\Users\\JLGading\\Downloads\\TeksBerita (6).txt")
+    print(a)
