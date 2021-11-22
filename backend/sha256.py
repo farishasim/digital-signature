@@ -18,6 +18,10 @@ def ror(bit, rotate, max_bits):
         ((bit << (max_bits - rotate)) & ((1 << max_bits) - 1))
     )
 
+# Tambah dalam modulo 2^32
+def add32(a, b):
+    return((a + b) & ((1 << 32) - 1))
+
 # Message sudah dalam bentuk bit
 def sha_256(message):
     h0, h1, h2, h3, h4, h5, h6, h7 = 0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a, 0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19
@@ -41,35 +45,35 @@ def sha_256(message):
         for i in range(16, 64):
             s0 =  (ror(words[i-15], 7, 32)) ^ (ror(words[i-15], 18, 32)) ^ (ror(words[i-15], 3, 32))
             s1 = (ror(words[i-2], 17, 32)) ^ (ror(words[i-2], 19, 32)) ^ (ror(words[i-2], 10, 32))
-            words[i] = words[i - 16] + s0 + words[i-7] + s1
+            words[i] = add32(add32(words[i - 16], s0),  add32(words[i-7], s1))
             
         a, b, c, d, e, f, g, h  = h0, h1, h2, h3, h4, h5, h6, h7
 
         for i in range(64):
             c1 = (ror(e, 6, 32)) ^ (ror(e, 11, 32)) ^ (ror(e, 25, 32))
             ch = (e & f) ^ (~e & g)
-            temp1 = h + c1 + ch + kTable[i] + words[i]
+            temp1 = add32(add32(h, c1), add32(ch, add32(kTable[i], words[i])))
             c0 = (ror(a, 2, 32))  ^ (ror(a, 13, 32)) ^ (ror(a, 22, 32))
             maj = (a & b) ^ (b & c) ^ (c & a)
-            temp2 = c0 + maj
+            temp2 = add32(c0, maj)
             
             h = g
             g = f
             f = e
-            e = d + temp1
+            e = add32(d, temp1)
             d = c
             c = b
             b = a
-            a = temp1 + temp2
+            a = add32(temp1, temp2)
         
-        h0 += a
-        h1 += b
-        h2 += c
-        h3 += d
-        h4 += e
-        h5 += f
-        h6 += g
-        h7 += h
+        h0 = add32(h0, a)
+        h1 = add32(h1, b)
+        h2 = add32(h2, c)
+        h3 = add32(h3, d)
+        h4 = add32(h4, e)
+        h5 = add32(h5, f)
+        h6 = add32(h6, g)
+        h7 = add32(h7, h)
            
     digest = (h0 << 32) + h1
     digest <<= 32

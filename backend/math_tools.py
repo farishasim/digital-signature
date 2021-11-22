@@ -34,10 +34,7 @@ def split_bit(n, length):
     num_chunk = n.bit_length() // length
     for i in range(num_chunk):
         mask = (1 << length) - 1
-        if(i == num_chunk - 1): 
-            chunks.append(((n & (mask << ((num_chunk - i - 1) * length))) >> ((num_chunk - i - 1) * length) >> pad))
-        else:    
-            chunks.append((n & (mask << ((num_chunk - i - 1) * length))) >> ((num_chunk - i - 1) * length))
+        chunks.append((n & (mask << ((num_chunk - i - 1) * length))) >> ((num_chunk - i - 1) * length))
     return(chunks, pad)
 
 def split_bit_pref(n, length):
@@ -53,3 +50,13 @@ def split_bit_pref(n, length):
         mask = (1 << length) - 1
         chunks.append((n & (mask << ((num_chunk - i - 1) * length))) >> ((num_chunk - i - 1) * length))
     return(chunks, pad) 
+
+def split256to19(n):
+    chunks = []
+    chunks.append(n & ((1 << 9) - 1))
+    n >>= 9
+    for _ in range(13):
+        chunks.append(n & ((1 << 19) -1))
+        n >>= 19
+    chunks.reverse()
+    return(chunks)
