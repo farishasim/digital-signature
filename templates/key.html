@@ -22,12 +22,15 @@
     $("#sub").removeAttr("hidden");
 
     $("#newKey").on('click', () => {
-        $("#feedMsg").removeAttr("hidden");
-        $("#getPublic").removeAttr("hidden");
-        $("#getPrivate").removeAttr("hidden");  
-        setTimeout(() => {
-            $("#feedMsg").attr("hidden", "1");
-        }, 3000);      
+        $.get("/genkey/new", (data) => {
+            console.log(data);
+            $("#feedMsg").removeAttr("hidden");
+            $("#getPublic").removeAttr("hidden");
+            $("#getPrivate").removeAttr("hidden");  
+            setTimeout(() => {
+                $("#feedMsg").attr("hidden", "1");
+            }, 3000);      
+        })
     })
 </script>
 

@@ -12,8 +12,12 @@ def index():
 
 @app.route("/genkey")
 def generateKey():
-    elgamal.key_generator()
     return render_template("key.html")
+
+@app.route("/genkey/new")
+def generateNewKey():
+    elgamal.key_generator()
+    return "done"
 
 @app.route("/sign")
 def signFile():
