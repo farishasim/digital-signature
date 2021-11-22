@@ -68,10 +68,10 @@ def decrypt_elgamal(ciphertext):
         plains += plain
     return plains
 
-
-sha = sha256.sha_256(0b100101010001)
-nha = encrypt_elgamal(sha)
-print(sha)
-print(nha)
-print(decrypt_elgamal(nha))
-      
+if __name__=="__main__":
+    sha = sha256.sha_256(0b100101010001)
+    nha = encrypt_elgamal(sha)
+    print(sha)
+    print(nha)
+    print(decrypt_elgamal(nha))
+        
